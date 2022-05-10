@@ -1,0 +1,17 @@
+Options -Indexes
+Options +FollowSymLinks
+RewriteEngine on
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+Header always set Content-Security-Policy "upgrade-insecure-requests;"
+
+# RewriteBase https://soundcity.rf.gd/
+
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^(.*)/(.*)/?(.*)?$ index.php?controller=$1&action=$2&id=$3 [NC,L,QSA]
+
+# Errores
+ErrorDocument 403 https://soundcity.rf.gd/error/forbidden
+ErrorDocument 404 https://soundcity.rf.gd/error/notfound
